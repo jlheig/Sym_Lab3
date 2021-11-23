@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">SYM - Labo 3</string>
+    <string name="main_nfcButton"> NFC </string>
+    <string name="main_iBeaconButton">iBeacon</string>
+    <string name="main_codeBarreButton">Code Barre</string>
+</resources>
