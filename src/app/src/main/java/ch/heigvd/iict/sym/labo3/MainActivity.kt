@@ -15,6 +15,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import ch.heigvd.iict.sym.labo3.ibeacon.IbeaconActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -30,5 +31,10 @@ class MainActivity : AppCompatActivity() {
         nfcBtn = findViewById(R.id.main_nfcButton)
         barcodeBtn   = findViewById(R.id.main_codeBarreButton)
         ibeaconBtn   = findViewById(R.id.main_iBeaconButton)
+
+        ibeaconBtn.setOnClickListener{
+            val intent = Intent(this, IbeaconActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
