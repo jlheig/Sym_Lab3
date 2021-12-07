@@ -22,12 +22,13 @@ import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.experimental.and
 import ch.heigvd.iict.sym.labo3.nfc.utils.*
+import kotlinx.coroutines.channels.Channel
 
 
 class NfcLoginActivity : AppCompatActivity() {
-    val TAG = "NfcLoginActivity"
+    private val TAG = "NfcLoginActivity"
     private val MIME_TEXT_PLAIN = "text/plain"
-
+    val dataPass = Channel<String>()
     private var nfcValid : Boolean = false;
 
     private lateinit var email : TextView
@@ -44,6 +45,10 @@ class NfcLoginActivity : AppCompatActivity() {
         validate = findViewById(R.id.main_validate)
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
+        lifecycleScope.launch {
+            validateNFCFactor()
+        }
+
         if (nfcAdapter == null) {
             Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
             finish();
@@ -56,6 +61,7 @@ class NfcLoginActivity : AppCompatActivity() {
         else {
             Toast.makeText(this,"NFC is enabled.", Toast.LENGTH_SHORT).show();
         }
+
 
         validate.setOnClickListener(){
             if(email.text?.toString() != "hello" ||
@@ -86,7 +92,7 @@ class NfcLoginActivity : AppCompatActivity() {
                     val tag: Tag? = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
                     lifecycleScope.launch {
                         if (tag != null) {
-                            readNfcData(tag)
+                            readNfcData(tag, dataPass)
                         }
                     }
                 } else {
@@ -105,6 +111,17 @@ class NfcLoginActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         stopForegroundDispatch(this, nfcAdapter)
+    }
+
+    private suspend fun validateNFCFactor(){
+        return withContext(Dispatchers.IO){
+            while (true){
+                Log.i(TAG, "Waiting NFC factor...")
+                val factor = dataPass.receive()
+                nfcValid = factor == "test"
+                Log.i(TAG, "NFC factor received is $nfcValid")
+            }
+        }
     }
 
 }

@@ -10,6 +10,7 @@ import android.nfc.tech.Ndef
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.experimental.and
@@ -17,74 +18,70 @@ import kotlin.experimental.and
 
 val TAG = "NfcUtils"
 
-     fun setupForegroundDispatch(activity : AppCompatActivity, nfcAdapter: NfcAdapter) {
-        val intent: Intent = Intent(
-            activity.applicationContext,
-            activity.javaClass
-        )
+fun setupForegroundDispatch(activity: AppCompatActivity, nfcAdapter: NfcAdapter) {
+    val intent: Intent = Intent(
+        activity.applicationContext,
+        activity.javaClass
+    )
 
-        intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP;
-        val pendingIntent =
-            PendingIntent.getActivity(activity.applicationContext, 0, intent, 0);
+    intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP;
+    val pendingIntent =
+        PendingIntent.getActivity(activity.applicationContext, 0, intent, 0);
 
-        val filters = arrayOfNulls<IntentFilter>(1)
-        val techList = arrayOf<Array<String>>()
+    val filters = arrayOfNulls<IntentFilter>(1)
+    val techList = arrayOf<Array<String>>()
 
-        filters[0] = IntentFilter()
-        filters[0]?.addAction(NfcAdapter.ACTION_NDEF_DISCOVERED);
-        filters[0]?.addCategory(Intent.CATEGORY_DEFAULT)
+    filters[0] = IntentFilter()
+    filters[0]?.addAction(NfcAdapter.ACTION_NDEF_DISCOVERED);
+    filters[0]?.addCategory(Intent.CATEGORY_DEFAULT)
 
-        try {
-            filters[0]!!.addDataType("text/plain")
-        } catch (e: IntentFilter.MalformedMimeTypeException) {
-            Log.e(TAG, "MalformedMimeTypeException", e)
-        }
-
-        nfcAdapter.enableForegroundDispatch(activity, pendingIntent, filters, techList)
+    try {
+        filters[0]!!.addDataType("text/plain")
+    } catch (e: IntentFilter.MalformedMimeTypeException) {
+        Log.e(TAG, "MalformedMimeTypeException", e)
     }
 
-    fun stopForegroundDispatch(activity: AppCompatActivity, nfcAdapter: NfcAdapter){
-        if(nfcAdapter != null){
-            nfcAdapter.disableForegroundDispatch(activity);
-        }
-    }
+    nfcAdapter.enableForegroundDispatch(activity, pendingIntent, filters, techList)
+}
 
- suspend fun readNfcData(tag : Tag){
-    return withContext(Dispatchers.IO){
-        var ndef = Ndef.get(tag);
+fun stopForegroundDispatch(activity: AppCompatActivity, nfcAdapter: NfcAdapter) {
+    if (nfcAdapter != null) {
+        nfcAdapter.disableForegroundDispatch(activity);
+    }
+}
+
+suspend fun readNfcData(tag: Tag, dataPass: Channel<String>) {
+    return withContext(Dispatchers.IO) {
+        val ndef = Ndef.get(tag);
         if (ndef == null) {
             Log.e(TAG, "NDEF is not supported by this Tag.")
             return@withContext;
         }
 
-        var ndefMessage = ndef.cachedNdefMessage;
-        var records = ndefMessage.records
+        val ndefMessage = ndef.cachedNdefMessage;
+        val records = ndefMessage.records
 
-        var datas = ArrayList<String>()
+        val datas = ArrayList<String>()
 
-        for(ndefRecord in records){
+        for (ndefRecord in records) {
             if (ndefRecord.getTnf() == NdefRecord.TNF_WELL_KNOWN &&
-                Arrays.equals(ndefRecord.getType(), NdefRecord.RTD_TEXT))
-            {
+                Arrays.equals(ndefRecord.getType(), NdefRecord.RTD_TEXT)
+            ) {
                 datas.add(readText(ndefRecord))
             }
         }
 
-        //Second factor verification
-        //TODO: better to put it elsewhere but I don't know how
-
-        /*if(datas[0] == "test"){
-            nfcValid = true;
-        }*/
+        dataPass.send(datas[0])
     }
 }
 
-fun readText(record: NdefRecord): String{
+fun readText(record: NdefRecord): String {
     val payload = record.payload
     val textEncoding = Charsets.UTF_8
     val languageCodeLength: Int = payload[0].and(63).toInt()
 
-    val data = String(payload, languageCodeLength + 1, payload.size - languageCodeLength - 1, textEncoding)
+    val data =
+        String(payload, languageCodeLength + 1, payload.size - languageCodeLength - 1, textEncoding)
     Log.i(TAG, "Read data: $data")
     return data
 }
