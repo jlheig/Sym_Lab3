@@ -19,4 +19,7 @@
 
     <string name="incorrect_credentials">Wrong credentials</string>
     <string name="incorrect_nfc_factor">Wrong NFC value</string>
+    <string name="max_security">Max Security</string>
+    <string name="medium_security">Medium Security</string>
+    <string name="min_security">Min Security</string>
 </resources>

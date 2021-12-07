@@ -75,9 +75,10 @@ class NfcLoginActivity : AppCompatActivity() {
                 Toast.makeText(this, R.string.incorrect_nfc_factor, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            
-            //TODO: Redirect to security activity
+
             Log.i(TAG, "Login successful")
+            val intent = Intent(this, NfcSecurityActivity::class.java)
+            startActivity(intent)
         }
 
     }
@@ -89,7 +90,12 @@ class NfcLoginActivity : AppCompatActivity() {
                 Log.i(TAG, "Found NFC device!")
                 val type = intent.type
                 if (MIME_TEXT_PLAIN.equals(type)) {
+                    lifecycleScope.launch {
+                        validateNFCFactor()
+                    }
+
                     val tag: Tag? = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
+
                     lifecycleScope.launch {
                         if (tag != null) {
                             readNfcData(tag, dataPass)
@@ -115,12 +121,10 @@ class NfcLoginActivity : AppCompatActivity() {
 
     private suspend fun validateNFCFactor(){
         return withContext(Dispatchers.IO){
-            while (true){
                 Log.i(TAG, "Waiting NFC factor...")
                 val factor = dataPass.receive()
                 nfcValid = factor == "test"
                 Log.i(TAG, "NFC factor received is $nfcValid")
-            }
         }
     }
 
