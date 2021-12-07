@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.content.Intent
+import ch.heigvd.iict.sym.labo3.nfc.NfcLoginActivity
 
 
 class MainActivity : AppCompatActivity() {

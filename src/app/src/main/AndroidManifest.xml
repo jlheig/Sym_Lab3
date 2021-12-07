@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/SymTheme">
         <activity
-            android:name=".NfcLoginActivity"
+            android:name=".nfc.NfcLoginActivity"
             android:exported="false">
         </activity>
 

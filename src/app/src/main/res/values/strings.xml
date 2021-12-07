@@ -16,4 +16,7 @@
     <string name="main_password_hint">password</string>
     <string name="main_cancel_btn">cancel</string>
     <string name="main_validate_btn">validate</string>
+
+    <string name="incorrect_credentials">Wrong credentials</string>
+    <string name="incorrect_nfc_factor">Wrong NFC value</string>
 </resources>
