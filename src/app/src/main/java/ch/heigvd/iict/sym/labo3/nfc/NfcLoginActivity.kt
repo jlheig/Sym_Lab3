@@ -28,7 +28,6 @@ import kotlinx.coroutines.channels.Channel
 class NfcLoginActivity : AppCompatActivity() {
     private val TAG = "NfcLoginActivity"
     private val MIME_TEXT_PLAIN = "text/plain"
-    val dataPass = Channel<String>()
     private var nfcValid : Boolean = false;
 
     private lateinit var email : TextView
@@ -88,9 +87,6 @@ class NfcLoginActivity : AppCompatActivity() {
                 Log.i(TAG, "Found NFC device!")
                 val type = intent.type
                 if (MIME_TEXT_PLAIN.equals(type)) {
-                    lifecycleScope.launch {
-
-                    }
 
                     val tag: Tag? = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
 
@@ -121,9 +117,9 @@ class NfcLoginActivity : AppCompatActivity() {
         super.onPause()
         stopForegroundDispatch(this, nfcAdapter)
     }
-    
+
     private suspend fun validateNFCFactor(factor: String?){
-        nfcValid = factor == "test"
+        nfcValid = correctFactor(factor)
         Log.i(TAG, "NFC factor received is $nfcValid")
     }
 

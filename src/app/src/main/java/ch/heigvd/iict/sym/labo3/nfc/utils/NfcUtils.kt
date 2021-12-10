@@ -84,3 +84,7 @@ fun readText(record: NdefRecord): String {
     Log.i(TAG, "Read data: $data")
     return data
 }
+
+fun correctFactor(factor : String?): Boolean{
+    return factor == "test"
+}
