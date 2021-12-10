@@ -45,9 +45,7 @@ class NfcLoginActivity : AppCompatActivity() {
         validate = findViewById(R.id.main_validate)
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
-        lifecycleScope.launch {
-            validateNFCFactor()
-        }
+
 
         if (nfcAdapter == null) {
             Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
@@ -91,14 +89,19 @@ class NfcLoginActivity : AppCompatActivity() {
                 val type = intent.type
                 if (MIME_TEXT_PLAIN.equals(type)) {
                     lifecycleScope.launch {
-                        validateNFCFactor()
+
                     }
 
                     val tag: Tag? = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
 
                     lifecycleScope.launch {
                         if (tag != null) {
-                            readNfcData(tag, dataPass)
+                            withContext(Dispatchers.IO){
+                               val factor = readNfcData(tag)
+                                validateNFCFactor(factor)
+                            }
+
+
                         }
                     }
                 } else {
@@ -118,14 +121,10 @@ class NfcLoginActivity : AppCompatActivity() {
         super.onPause()
         stopForegroundDispatch(this, nfcAdapter)
     }
-
-    private suspend fun validateNFCFactor(){
-        return withContext(Dispatchers.IO){
-                Log.i(TAG, "Waiting NFC factor...")
-                val factor = dataPass.receive()
-                nfcValid = factor == "test"
-                Log.i(TAG, "NFC factor received is $nfcValid")
-        }
+    
+    private suspend fun validateNFCFactor(factor: String?){
+        nfcValid = factor == "test"
+        Log.i(TAG, "NFC factor received is $nfcValid")
     }
 
 }

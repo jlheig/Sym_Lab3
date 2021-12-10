@@ -11,7 +11,7 @@ class NfcSecurityActivity : AppCompatActivity() {
     private val AUTHENTICATE_MAX = 10
     val dataPass = Channel<String>()
 
-    private lateinit var authTime : Integer
+    private var authTime = 10
     private lateinit var maxSecurity : Button
     private lateinit var midSecurity : Button
     private lateinit var minSecurity : Button
@@ -24,5 +24,7 @@ class NfcSecurityActivity : AppCompatActivity() {
         maxSecurity = findViewById(R.id.max_security_btn)
         midSecurity = findViewById(R.id.mid_security_btn)
         minSecurity = findViewById(R.id.min_security_btn)
+
     }
+
 }

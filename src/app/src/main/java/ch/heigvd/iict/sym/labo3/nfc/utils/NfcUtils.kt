@@ -50,12 +50,11 @@ fun stopForegroundDispatch(activity: AppCompatActivity, nfcAdapter: NfcAdapter) 
     }
 }
 
-suspend fun readNfcData(tag: Tag, dataPass: Channel<String>) {
-    return withContext(Dispatchers.IO) {
+suspend fun readNfcData(tag: Tag) : String? = withContext(Dispatchers.IO){
         val ndef = Ndef.get(tag);
         if (ndef == null) {
             Log.e(TAG, "NDEF is not supported by this Tag.")
-            return@withContext;
+            return@withContext null;
         }
 
         val ndefMessage = ndef.cachedNdefMessage;
@@ -71,8 +70,8 @@ suspend fun readNfcData(tag: Tag, dataPass: Channel<String>) {
             }
         }
 
-        dataPass.send(datas[0])
-    }
+        datas[0]
+
 }
 
 fun readText(record: NdefRecord): String {
