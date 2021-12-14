@@ -1,13 +1,8 @@
 package ch.heigvd.iict.sym.labo3.nfc
 
-import android.app.PendingIntent
 import android.content.Intent
-import android.content.IntentFilter
-import android.content.IntentFilter.MalformedMimeTypeException
-import android.nfc.NdefRecord
 import android.nfc.NfcAdapter
 import android.nfc.Tag
-import android.nfc.tech.Ndef
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -16,23 +11,21 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import ch.heigvd.iict.sym.labo3.R
+import ch.heigvd.iict.sym.labo3.nfc.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
-import kotlin.experimental.and
-import ch.heigvd.iict.sym.labo3.nfc.utils.*
-import kotlinx.coroutines.channels.Channel
 
 
 class NfcLoginActivity : AppCompatActivity() {
     private val TAG = "NfcLoginActivity"
     private val MIME_TEXT_PLAIN = "text/plain"
-    private var nfcValid : Boolean = false;
+    private var nfcValid: Boolean = false;
 
-    private lateinit var email : TextView
-    private lateinit var password : TextView
-    private lateinit var validate : Button
+    private lateinit var email: TextView
+    private lateinit var password: TextView
+    private lateinit var validate: Button
     private lateinit var nfcAdapter: NfcAdapter
 
 
@@ -53,22 +46,21 @@ class NfcLoginActivity : AppCompatActivity() {
         }
 
         if (!nfcAdapter.isEnabled()) {
-            Toast.makeText(this,"NFC is disabled.", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(this,"NFC is enabled.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "NFC is disabled.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "NFC is enabled.", Toast.LENGTH_SHORT).show();
         }
 
 
-        validate.setOnClickListener(){
-            if(email.text?.toString() != "hello" ||
-               password.text?.toString() != "world")
-            {
+        validate.setOnClickListener() {
+            if (email.text?.toString() != "hello" ||
+                password.text?.toString() != "world"
+            ) {
                 Toast.makeText(this, R.string.incorrect_credentials, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            
-            if(!nfcValid){
+
+            if (!nfcValid) {
                 Toast.makeText(this, R.string.incorrect_nfc_factor, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -83,7 +75,7 @@ class NfcLoginActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         if (intent != null) {
-            if(NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action) {
+            if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action) {
                 Log.i(TAG, "Found NFC device!")
                 val type = intent.type
                 if (MIME_TEXT_PLAIN.equals(type)) {
@@ -92,8 +84,8 @@ class NfcLoginActivity : AppCompatActivity() {
 
                     lifecycleScope.launch {
                         if (tag != null) {
-                            withContext(Dispatchers.IO){
-                               val factor = readNfcData(tag)
+                            withContext(Dispatchers.IO) {
+                                val factor = readNfcData(tag)
                                 validateNFCFactor(factor)
                             }
 
@@ -108,6 +100,7 @@ class NfcLoginActivity : AppCompatActivity() {
 
         }
     }
+
     override fun onResume() {
         super.onResume()
         setupForegroundDispatch(this, nfcAdapter)
@@ -118,7 +111,7 @@ class NfcLoginActivity : AppCompatActivity() {
         stopForegroundDispatch(this, nfcAdapter)
     }
 
-    private suspend fun validateNFCFactor(factor: String?){
+    private fun validateNFCFactor(factor: String?) {
         nfcValid = correctFactor(factor)
         Log.i(TAG, "NFC factor received is $nfcValid")
     }

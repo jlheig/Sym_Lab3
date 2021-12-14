@@ -15,7 +15,6 @@ import ch.heigvd.iict.sym.labo3.nfc.utils.readNfcData
 import ch.heigvd.iict.sym.labo3.nfc.utils.setupForegroundDispatch
 import ch.heigvd.iict.sym.labo3.nfc.utils.stopForegroundDispatch
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -28,9 +27,9 @@ class NfcSecurityActivity : AppCompatActivity() {
     private val AUTHENTICATE_MIN = 3
 
     private var authTime = AUTHENTICATE_MAX
-    private lateinit var maxSecurity : Button
-    private lateinit var midSecurity : Button
-    private lateinit var minSecurity : Button
+    private lateinit var maxSecurity: Button
+    private lateinit var midSecurity: Button
+    private lateinit var minSecurity: Button
     private lateinit var nfcAdapter: NfcAdapter
 
 
@@ -43,20 +42,20 @@ class NfcSecurityActivity : AppCompatActivity() {
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
         lifecycleScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.Default) {
                 decreaseSecurity()
             }
         }
 
-        maxSecurity.setOnClickListener{
+        maxSecurity.setOnClickListener {
             checkAuth(AUTHENTICATE_MAX)
         }
 
-        midSecurity.setOnClickListener{
+        midSecurity.setOnClickListener {
             checkAuth(AUTHENTICATE_MID)
         }
 
-        minSecurity.setOnClickListener(){
+        minSecurity.setOnClickListener() {
             checkAuth(AUTHENTICATE_MIN)
         }
     }
@@ -64,7 +63,7 @@ class NfcSecurityActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         if (intent != null) {
-            if(NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action) {
+            if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action) {
                 Log.i(TAG, "Found NFC device!")
                 val type = intent.type
                 if (MIME_TEXT_PLAIN.equals(type)) {
@@ -73,12 +72,10 @@ class NfcSecurityActivity : AppCompatActivity() {
 
                     lifecycleScope.launch {
                         if (tag != null) {
-                            withContext(Dispatchers.IO){
+                            withContext(Dispatchers.IO) {
                                 val factor = readNfcData(tag)
                                 resetAuth(factor)
                             }
-
-
                         }
                     }
                 } else {
@@ -100,30 +97,28 @@ class NfcSecurityActivity : AppCompatActivity() {
         stopForegroundDispatch(this, nfcAdapter)
     }
 
-    private fun checkAuth(minAuthRequired: Int){
+    private fun checkAuth(minAuthRequired: Int) {
         var status = "Auth is "
-        if(authTime >= minAuthRequired) {
+        if (authTime >= minAuthRequired) {
             status += "valid"
-        }
-        else{
+        } else {
             status += "invalid"
         }
         Toast.makeText(this, status, Toast.LENGTH_SHORT).show()
     }
 
 
-    suspend fun decreaseSecurity(){
-        while(true) {
-            Thread.sleep(3000)
+    private fun decreaseSecurity() {
+        while (true) {
+            Thread.sleep(4000)
             authTime--
         }
     }
 
-    suspend fun resetAuth(factor: String?){
-        if(correctFactor(factor)){
+    private fun resetAuth(factor: String?) {
+        if (correctFactor(factor)) {
             authTime = AUTHENTICATE_MAX
         }
-
     }
 
 
