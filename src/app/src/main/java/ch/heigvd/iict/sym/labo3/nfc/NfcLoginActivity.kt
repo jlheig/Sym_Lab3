@@ -17,7 +17,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 
-
+/**
+ * Login activity that use user/password and NFC second factor for authentication
+ */
 class NfcLoginActivity : AppCompatActivity() {
     private val TAG = "NfcLoginActivity"
     private val MIME_TEXT_PLAIN = "text/plain"
@@ -84,11 +86,8 @@ class NfcLoginActivity : AppCompatActivity() {
 
                     lifecycleScope.launch {
                         if (tag != null) {
-                            withContext(Dispatchers.IO) {
                                 val factor = readNfcData(tag)
                                 validateNFCFactor(factor)
-                            }
-
 
                         }
                     }
@@ -111,6 +110,9 @@ class NfcLoginActivity : AppCompatActivity() {
         stopForegroundDispatch(this, nfcAdapter)
     }
 
+    /**
+     * Retrieve and validate NFC factor authentication
+     */
     private fun validateNFCFactor(factor: String?) {
         nfcValid = correctFactor(factor)
         Log.i(TAG, "NFC factor received is $nfcValid")

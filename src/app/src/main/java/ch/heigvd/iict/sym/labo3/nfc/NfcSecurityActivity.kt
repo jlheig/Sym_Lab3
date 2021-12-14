@@ -18,6 +18,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * Activity where the authentication diminishes over time
+ * and can be reset by scanning the correct NFC factor
+ */
 class NfcSecurityActivity : AppCompatActivity() {
     private val TAG = "NfcSecurityActivity"
     private val MIME_TEXT_PLAIN = "text/plain"
@@ -42,9 +46,7 @@ class NfcSecurityActivity : AppCompatActivity() {
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
 
         lifecycleScope.launch {
-            withContext(Dispatchers.Default) {
                 decreaseSecurity()
-            }
         }
 
         maxSecurity.setOnClickListener {
@@ -72,10 +74,8 @@ class NfcSecurityActivity : AppCompatActivity() {
 
                     lifecycleScope.launch {
                         if (tag != null) {
-                            withContext(Dispatchers.IO) {
                                 val factor = readNfcData(tag)
                                 resetAuth(factor)
-                            }
                         }
                     }
                 } else {
@@ -97,6 +97,9 @@ class NfcSecurityActivity : AppCompatActivity() {
         stopForegroundDispatch(this, nfcAdapter)
     }
 
+    /**
+     * Say if authentication time is at a correct level of security
+     */
     private fun checkAuth(minAuthRequired: Int) {
         var status = "Auth is "
         if (authTime >= minAuthRequired) {
@@ -108,14 +111,20 @@ class NfcSecurityActivity : AppCompatActivity() {
     }
 
 
-    private fun decreaseSecurity() {
+    /**
+     * Decrease authentication time at regular interval
+     */
+    private suspend fun decreaseSecurity() = withContext(Dispatchers.Default){
         while (true) {
             Thread.sleep(4000)
             authTime--
         }
     }
 
-    private fun resetAuth(factor: String?) {
+    /**
+     * Reset the authentication time at its maxValue if the factor is correct
+     */
+    private suspend fun resetAuth(factor: String?) = withContext(Dispatchers.Default) {
         if (correctFactor(factor)) {
             authTime = AUTHENTICATE_MAX
         }

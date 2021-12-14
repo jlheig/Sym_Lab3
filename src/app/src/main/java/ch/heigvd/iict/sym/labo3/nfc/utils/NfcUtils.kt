@@ -18,6 +18,11 @@ import kotlin.experimental.and
 
 val TAG = "NfcUtils"
 
+// Static methods used for NFC factor related actions
+
+/**
+ * Function that activate nfc Listening for a particular activity
+ */
 fun setupForegroundDispatch(activity: AppCompatActivity, nfcAdapter: NfcAdapter) {
     val intent: Intent = Intent(
         activity.applicationContext,
@@ -44,12 +49,18 @@ fun setupForegroundDispatch(activity: AppCompatActivity, nfcAdapter: NfcAdapter)
     nfcAdapter.enableForegroundDispatch(activity, pendingIntent, filters, techList)
 }
 
+/**
+ * Function that deactivate nfc Listening for a particular activity
+ */
 fun stopForegroundDispatch(activity: AppCompatActivity, nfcAdapter: NfcAdapter) {
     if (nfcAdapter != null) {
         nfcAdapter.disableForegroundDispatch(activity);
     }
 }
 
+/**
+ * Retrieves Data from the NFC and return the first element read
+ */
 suspend fun readNfcData(tag: Tag) : String? = withContext(Dispatchers.IO){
         val ndef = Ndef.get(tag);
         if (ndef == null) {
@@ -74,6 +85,9 @@ suspend fun readNfcData(tag: Tag) : String? = withContext(Dispatchers.IO){
 
 }
 
+/**
+ * Decode an NDEF Record and return its data
+ */
 fun readText(record: NdefRecord): String {
     val payload = record.payload
     val textEncoding = Charsets.UTF_8
@@ -85,6 +99,9 @@ fun readText(record: NdefRecord): String {
     return data
 }
 
+/**
+ * Check if NFC factor is correct
+ */
 fun correctFactor(factor : String?): Boolean{
     return factor == "test"
 }
