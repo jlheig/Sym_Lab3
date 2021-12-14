@@ -39,7 +39,7 @@ class NfcSecurityActivity : AppCompatActivity() {
         maxSecurity = findViewById(R.id.max_security_btn)
         midSecurity = findViewById(R.id.mid_security_btn)
         minSecurity = findViewById(R.id.min_security_btn)
-        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this)
 
         lifecycleScope.launch {
             withContext(Dispatchers.Default) {

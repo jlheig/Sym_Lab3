@@ -21,7 +21,7 @@ import java.util.*
 class NfcLoginActivity : AppCompatActivity() {
     private val TAG = "NfcLoginActivity"
     private val MIME_TEXT_PLAIN = "text/plain"
-    private var nfcValid: Boolean = false;
+    private var nfcValid: Boolean = false
 
     private lateinit var email: TextView
     private lateinit var password: TextView
@@ -32,27 +32,27 @@ class NfcLoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nfc_login)
-        email = findViewById(R.id.main_email);
-        password = findViewById(R.id.main_password);
+        email = findViewById(R.id.main_email)
+        password = findViewById(R.id.main_password)
         validate = findViewById(R.id.main_validate)
-        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this)
 
 
 
         if (nfcAdapter == null) {
-            Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
-            finish();
-            return;
+            Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG).show()
+            finish()
+            return
         }
 
         if (!nfcAdapter.isEnabled()) {
-            Toast.makeText(this, "NFC is disabled.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "NFC is disabled.", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this, "NFC is enabled.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "NFC is enabled.", Toast.LENGTH_SHORT).show()
         }
 
 
-        validate.setOnClickListener() {
+        validate.setOnClickListener {
             if (email.text?.toString() != "hello" ||
                 password.text?.toString() != "world"
             ) {
