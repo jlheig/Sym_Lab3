@@ -3,4 +3,6 @@
     <string name="main_nfcButton"> NFC </string>
     <string name="main_iBeaconButton">iBeacon</string>
     <string name="main_codeBarreButton">Code Barre</string>
+    <string name="barcode_result_title">Barcode value:</string>
+    <string name="barcode_result_content">No barcode found</string>
 </resources>
