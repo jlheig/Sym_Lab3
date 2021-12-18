@@ -16,3 +16,12 @@ que n'importe quel appareil peut récupérer ses datas. Un attaquant se trouvant
 et mettre cet UUID sur une autre IBeacon (du spoofing en somme)
 3. La Passivité. Une IBeacon émet ses données en boucle contrairement
 à une puce NFC qui exige une action de l'utilisateur. Pour un processus d'authentification il faut mieux utiliser des facteurs d'authentification qui requiert une utilisation active (où l'utilisateur doit faire une action)
+
+
+
+### 4.2
+Les IBeacon émettent plus loin, les rendants bien plus vulnérable à des attaques contrairement au NFC qui lui émets à des distances de l'ordre du centimètre. 
+Par exemple, lors d'un paiement en caisse, un attaquant pourrait lire les communications si elles ne sont pas chiffrés ou créer un autre réseau, attirer le client sur son réseau au lieu du réseau prévu à cet effet afin dévier les paiements sur un autre compte bancaire. La faible portée du NFC garanti un plus grande sécurité: le client est sûre de se connecter au bon terminal de communication et un attaquant devra se rapprocher énormément pour pouvoir lire les communication.  
+La facilitation d'utilisation, est un autre point qui les différencie, pour se connecter à un réseau ibeacon, un utilisateur doit savoir que le réseau existe et se connecter à celui-ci via bluetooth, alors que pour nfc il suffit juste de scanner un tag nfc (ou un QR code). 
+Par exemple, supposons qu'un magasin voudrait afficher leur catalogue, il sera plus aisé de scanner un tag nfc ou un qr code te donnant accès à une page web, que se connecter à un réseau IBeacon afin d'obtenir le même service.
+Troisièmement les Ibeacons sont des appareils sur batterie, ils peuvent donc en être à court. Ce n'est pas le cas pour les tags nfc qui sont passif et ne nécéssitent pas de batterir.Un magasin qui voudrait installer un réseau de Ibeacon devra veiller à sa disponibilité alors qu'un tag nfc sera toujours disponible.
