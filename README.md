@@ -24,6 +24,8 @@ et mettre cet UUID sur une autre IBeacon (du spoofing en somme)
 
 
 
+### QR Code
+
 ### 3.2
 
 1. Il est possible de stocker un maximum d'environ 3 KB dans un QR Code (exactement 2953 bytes). Oui il est possible de travailler avec des QR Codes complexes, il faut cependant prêter attention au fait que le nombre de modules ne soit pas trop élevé afin de permettre à la caméra de bien les distinguer. Sans quoi on se retrouvera avec seulement des fragments du QR Code qui seront transcrits.
@@ -31,7 +33,7 @@ et mettre cet UUID sur une autre IBeacon (du spoofing en somme)
    Avantages : Le contenu peut évoluer sans avoir à changer le QR Code. Un lien est plus court et donc plus facile à scanner qu'un contenu entier. Facilite la fonctionnalité de payements.
    Inconvénients : Une connexion à internet est nécessaire, on dépend donc d'un accès soit à un WI-FI soit au réseau, ce qui n'est pas toujours le cas dans le monde du mobile. On ne décode plus le contenu mais on accède à ce dernier soit via une application tierce (site internet) soit en le téléchargeant.
 
-
+### iBeacon
 
 ### 4.2
 Les IBeacon émettent plus loin, les rendants bien plus vulnérable à des attaques contrairement au NFC qui lui émets à des distances de l'ordre du centimètre. 
