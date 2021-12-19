@@ -18,24 +18,25 @@ import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import java.util.*
 
 /**
- * This sample performs continuous scanning, displaying the barcode and source image whenever
- * a barcode is scanned.
+ * This code is based on the ContinuousCaptureActivity in the sample folder of the repo of zxing
+ * SRC : https://github.com/journeyapps/zxing-android-embedded
  */
 class CodeBarreActivity : AppCompatActivity() {
     private lateinit var barcodeView: DecoratedBarcodeView
-    private lateinit var beepManager: BeepManager
     private lateinit var lastText: TextView
     private lateinit var imageView : ImageView
 
+
+    //This callback updates our texts and images with the result of the scanning
     private val callback: BarcodeCallback = object : BarcodeCallback {
         override fun barcodeResult(result: BarcodeResult) {
             if (result.text == null || result.text == lastText.text) {
                 // Prevent duplicate scans
                 return
             }
+            //updates texts with result
             lastText.text = result.text
             barcodeView.setStatusText(result.text)
-            beepManager.playBeepSoundAndVibrate()
 
             //Added preview of scanned barcode
             imageView.setImageBitmap(result.getBitmapWithResultPoints(Color.YELLOW))
@@ -55,7 +56,6 @@ class CodeBarreActivity : AppCompatActivity() {
         barcodeView.initializeFromIntent(intent)
         barcodeView.decodeContinuous(callback)
 
-        beepManager = BeepManager(this)
         imageView = findViewById(R.id.barcode_img)
         lastText = findViewById(R.id.barcode_result_content)
     }

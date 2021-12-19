@@ -46,7 +46,12 @@ class MainActivity : AppCompatActivity() {
 
 
     //Next two functions are from GeeksForGeeks, their tutorial was really useful
+    //SRC : https://www.geeksforgeeks.org/android-how-to-request-permissions-in-android-application/
 
+    /**
+     * This function checks if the permission we are asking for is authorised or not on this device,
+     * if we are authorised we start the activity, other wise we ask for the permission
+     */
     private fun checkPermissions(permission: String, permissionCode: Int){
         if(ContextCompat.checkSelfPermission(this@MainActivity, permission) == PackageManager.PERMISSION_DENIED){
             ActivityCompat.requestPermissions(this@MainActivity, arrayOf(permission), permissionCode);
@@ -56,6 +61,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * This function requests the permission we need if we never asked for it yet, it starts the activity if its accepted
+     */
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
