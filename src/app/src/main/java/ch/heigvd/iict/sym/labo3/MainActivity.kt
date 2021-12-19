@@ -59,11 +59,11 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode == CAMERA_PERMISSION){
-            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED){
+        if(requestCode == CAMERA_PERMISSION) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 startActivity(Intent(this, CodeBarreActivity::class.java))
             }
-            
+        }
         ibeaconBtn.setOnClickListener{
             val intent = Intent(this, IbeaconActivity::class.java)
             startActivity(intent)

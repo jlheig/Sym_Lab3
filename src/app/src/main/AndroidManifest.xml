@@ -27,6 +27,8 @@
         android:theme="@style/SymTheme">
         <activity
             android:name=".ibeacon.IbeaconActivity"
+            android:exported="false"/>
+        <activity
             android:name=".nfc.NfcSecurityActivity"
             android:exported="false" />
         <activity
