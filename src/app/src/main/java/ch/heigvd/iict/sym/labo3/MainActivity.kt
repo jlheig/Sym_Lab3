@@ -39,6 +39,15 @@ class MainActivity : AppCompatActivity() {
         barcodeBtn.setOnClickListener {
             checkPermissions(Manifest.permission.CAMERA, CAMERA_PERMISSION)
         }
+        ibeaconBtn.setOnClickListener{
+            val intent = Intent(this, IbeaconActivity::class.java)
+            startActivity(intent)
+        }
+
+        nfcBtn.setOnClickListener {
+            val intent = Intent(this, NfcLoginActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 
@@ -64,14 +73,6 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, CodeBarreActivity::class.java))
             }
         }
-        ibeaconBtn.setOnClickListener{
-            val intent = Intent(this, IbeaconActivity::class.java)
-            startActivity(intent)
-        }
-        
-        nfcBtn.setOnClickListener {
-            val intent = Intent(this, NfcLoginActivity::class.java)
-            startActivity(intent)
-        }
+
     }
 }
