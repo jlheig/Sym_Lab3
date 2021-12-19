@@ -3,6 +3,11 @@ Par Jean-Luc Blanc, Kylian Bourcoud & Paul Reeve
 
 ## Questions
 
+### NFC credentials
+Voici les credentials pour valider le 1er facteur d'authentification pour le login de la partie NFC:
+- username: `hello`
+- password: `world`
+
 ### 2.4.1
 L'API Android ne propose aucun mécanisme de base pour sécuriser un NFC et
 compliquer son clonage car NDEF n'est de base pas un format sécurisé.
