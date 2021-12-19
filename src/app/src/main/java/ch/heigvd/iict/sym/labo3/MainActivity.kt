@@ -1,13 +1,8 @@
 package ch.heigvd.iict.sym.labo3
 
-import android.app.Activity
-import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
-import android.widget.EditText
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.PersistableBundle
@@ -19,6 +14,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import android.Manifest
+import ch.heigvd.iict.sym.labo3.ibeacon.IbeaconActivity
+import ch.heigvd.iict.sym.labo3.nfc.NfcLoginActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -66,6 +63,15 @@ class MainActivity : AppCompatActivity() {
             if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED){
                 startActivity(Intent(this, CodeBarreActivity::class.java))
             }
+            
+        ibeaconBtn.setOnClickListener{
+            val intent = Intent(this, IbeaconActivity::class.java)
+            startActivity(intent)
+        }
+        
+        nfcBtn.setOnClickListener {
+            val intent = Intent(this, NfcLoginActivity::class.java)
+            startActivity(intent)
         }
     }
 }

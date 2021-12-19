@@ -51,6 +51,7 @@ dependencies {
     //coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
+    implementation 'androidx.fragment:fragment-ktx:1.2.0-rc02'
 
     //app compat
     implementation 'androidx.appcompat:appcompat:1.3.1'
@@ -64,4 +65,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    //ibeacon
+    implementation 'org.altbeacon:android-beacon-library:2.1'
 }
