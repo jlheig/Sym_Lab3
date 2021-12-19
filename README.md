@@ -19,6 +19,15 @@ et mettre cet UUID sur une autre IBeacon (du spoofing en somme)
 
 
 
+### 3.2
+
+1. Il est possible de stocker un maximum d'environ 3 KB dans un QR Code (exactement 2953 bytes). Oui il est possible de travailler avec des QR Codes complexes, il faut cependant prêter attention au fait que le nombre de modules ne soit pas trop élevé afin de permettre à la caméra de bien les distinguer. Sans quoi on se retrouvera avec seulement des fragments du QR Code qui seront transcrits.
+2. Les QR Codes dynamiques encodent un lien menant vers un certain contenu, il est donc possible de modifier le contenu sans pour autant modifier le lien.
+   Avantages : Le contenu peut évoluer sans avoir à changer le QR Code. Un lien est plus court et donc plus facile à scanner qu'un contenu entier. Facilite la fonctionnalité de payements.
+   Inconvénients : Une connexion à internet est nécessaire, on dépend donc d'un accès soit à un WI-FI soit au réseau, ce qui n'est pas toujours le cas dans le monde du mobile. On ne décode plus le contenu mais on accède à ce dernier soit via une application tierce (site internet) soit en le téléchargeant.
+
+
+
 ### 4.2
 Les IBeacon émettent plus loin, les rendants bien plus vulnérable à des attaques contrairement au NFC qui lui émets à des distances de l'ordre du centimètre. 
 Par exemple, lors d'un paiement en caisse, un attaquant pourrait lire les communications si elles ne sont pas chiffrés ou créer un autre réseau, attirer le client sur son réseau au lieu du réseau prévu à cet effet afin dévier les paiements sur un autre compte bancaire. La faible portée du NFC garanti un plus grande sécurité: le client est sûre de se connecter au bon terminal de communication et un attaquant devra se rapprocher énormément pour pouvoir lire les communication.  
