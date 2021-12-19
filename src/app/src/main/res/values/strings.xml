@@ -3,4 +3,23 @@
     <string name="main_nfcButton"> NFC </string>
     <string name="main_iBeaconButton">iBeacon</string>
     <string name="main_codeBarreButton">Code Barre</string>
+    <string name="title_activity_nft_login">nftLoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="main_email_hint">email</string>
+    <string name="main_password_hint">password</string>
+    <string name="main_cancel_btn">cancel</string>
+    <string name="main_validate_btn">validate</string>
+
+    <string name="incorrect_credentials">Wrong credentials</string>
+    <string name="incorrect_nfc_factor">Wrong NFC value</string>
+    <string name="max_security">Max Security</string>
+    <string name="medium_security">Medium Security</string>
+    <string name="min_security">Min Security</string>
 </resources>
